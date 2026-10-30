@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#080b16">
+    <meta name="description" content="Dodge the pulse. Collect the light. Play Neon Rush, a free neon arcade game.">
+    <title>Neon Rush — Arcade Survival</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Neon Rush home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M16 3 28 9.5v13L16 29 4 22.5v-13L16 3Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="m18.7 7-8 10h5l-2.4 8L22 14.8h-5.2L18.7 7Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="brand-name">NEON<span>RUSH</span></span>
+        </a>
+        <div class="topbar-note"><span class="live-dot"></span> ARCADE MODE <span class="topbar-divider">/</span> 001</div>
+      </header>
+
+      <section class="game-layout" aria-label="Neon Rush game">
+        <aside class="intro-panel">
+          <p class="eyebrow"><span class="eyebrow-line"></span> THE NIGHT IS YOURS</p>
+          <h1>Stay in the<br> <span>light.</span> Stay alive.</h1>
+          <p class="intro-copy">A little focus. A lot of neon. Dodge the pulse, collect the light, and see how long you can last.</p>
+
+          <div class="how-to">
+            <p class="section-label">THE QUICK BRIEF</p>
+            <div class="brief-row">
+              <span class="brief-icon icon-dodge" aria-hidden="true">↔</span>
+              <p><strong>Move with intention</strong><span>Switch lanes to dodge incoming pulses.</span></p>
+            </div>
+            <div class="brief-row">
+              <span class="brief-icon icon-collect" aria-hidden="true">✦</span>
+              <p><strong>Chase the light</strong><span>Collect golden sparks for bonus points.</span></p>
+            </div>
+          </div>
+
+          <p class="desktop-hint"><kbd>←</kbd> <kbd>→</kbd><span>or</span><kbd>A</kbd> <kbd>D</kbd><span>to move</span></p>
+          <p class="credit-line">BUILT FOR THE MOMENT <span>·</span> MADE TO PLAY AGAIN</p>
+        </aside>
+
+        <div class="game-column">
+          <div class="scorebar">
+            <div class="score-card">
+              <span class="score-label">SCORE</span>
+              <span class="score-value" id="score">0000</span>
+            </div>
+            <div class="score-card best-card">
+              <span class="score-label">BEST RUN</span>
+              <span class="score-value best-value" id="best-score">0000</span>
+            </div>
+            <div class="lives-card" aria-label="3 lives remaining">
+              <span class="score-label">LIVES</span>
+              <span class="life-dots" id="lives">
+                <span class="life-dot"></span><span class="life-dot"></span><span class="life-dot"></span>
+              </span>
+            </div>
+            <button class="pause-button" id="pause-button" type="button" aria-label="Pause game" hidden>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+
+          <div class="game-frame">
+            <canvas id="game-canvas" aria-label="Neon Rush game board. Move between lanes to dodge red hazards and collect golden sparks." role="img"></canvas>
+
+            <section class="screen-overlay" id="start-screen" aria-labelledby="game-title">
+              <div class="overlay-card">
+                <span class="overlay-kicker"><span class="live-dot"></span> YOUR NEXT OBSESSION</span>
+                <div class="hero-glyph" aria-hidden="true">✳</div>
+                <h2 id="game-title">Ready when<br>you are.</h2>
+                <p>Three lanes. Three lives.<br>How far can you go?</p>
+                <button class="primary-button" id="start-button" type="button">
+                  <span>START RUN</span><span class="button-arrow" aria-hidden="true">↗</span>
+                </button>
+                <span class="overlay-footnote">NO DOWNLOAD. JUST GOOD REFLEXES.</span>
+              </div>
+            </section>
+
+            <section class="screen-overlay" id="pause-screen" aria-labelledby="pause-title" hidden>
+              <div class="overlay-card compact-card">
+                <span class="overlay-kicker">TAKE YOUR TIME</span>
+                <h2 id="pause-title">Paused<span class="accent-period">.</span></h2>
+                <p>Your run is right where you left it.</p>
+                <button class="primary-button" id="resume-button" type="button">
+                  <span>KEEP GOING</span><span class="button-arrow" aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="screen-overlay" id="game-over-screen" aria-labelledby="game-over-title" hidden>
+              <div class="overlay-card compact-card">
+                <span class="overlay-kicker">THAT WAS A GOOD RUN</span>
+                <h2 id="game-over-title">Signal lost<span class="accent-period">.</span></h2>
+                <p>Final score <strong id="final-score">0</strong><br><span id="new-best" hidden>A new personal best. Nice.</span></p>
+                <button class="primary-button" id="retry-button" type="button">
+                  <span>RUN IT BACK</span><span class="button-arrow" aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </section>
+          </div>
+
+          <div class="mobile-controls" aria-label="Touch controls">
+            <button class="move-button" id="move-left" type="button" aria-label="Move left">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>LEFT</span>
+            </button>
+            <span class="touch-hint">TAP TO SWITCH LANES</span>
+            <button class="move-button" id="move-right" type="button" aria-label="Move right">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>RIGHT</span>
+            </button>
+          </div>
+          <p class="mobile-swipe-hint">Swipe left or right anywhere on the track</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>NEON RUSH <span class="footer-muted">© 2026</span></span>
+        <span class="footer-center">DODGE THE PULSE. COLLECT THE LIGHT.</span>
+        <span>MADE FOR THE <span class="footer-heart">✦</span> OF IT</span>
+      </footer>
+    </main>
+  </body>
+</html>
